@@ -1,0 +1,24 @@
+{% extends "Photo/base.html" %}
+{% block title %} Register {% endblock title %}
+{% load static %}
+
+{% block content%}
+<div class="content">
+  <div class="form-container">
+    <form method="POST" action="">
+      {% csrf_token %}
+      
+      <div class="form-control">
+        <h3>Join today</h3>
+    
+        {{form}}
+      </div>
+    
+      <button class="btn">Sign Up</button>
+    
+      <p class="text">Already Have an account? <a href="{% url 'login' %}">Sign In</a> </p>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

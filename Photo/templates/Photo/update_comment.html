@@ -1,0 +1,25 @@
+{% extends "Photo/base.html" %}
+{% block title %} Update Comment {% endblock title %}
+{% load static %}
+
+{% block content%}
+<div class="content">
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-control">
+                <h3>Add Comment</h3>
+
+                {{form.as_p}}
+
+                <button class="btn" type="submit">Update Comment</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+   
+
+   
+{% endblock %}

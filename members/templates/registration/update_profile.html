@@ -1,0 +1,26 @@
+{% extends "Photo/base.html" %}
+{% block title %} Update profile {% endblock title %}
+{% load static %}
+
+{% block content%}
+<div class="content">
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+  
+                <div class="form-control">
+                  <h3>Change Profile Picture</h3>
+  
+                  {{form.as_p}}
+  
+                </div>
+                
+            
+                <button class="btn" type="submit">Update</button>
+        
+        </form>
+
+    </div>
+</div>
+   
+{% endblock %}

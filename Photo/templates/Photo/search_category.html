@@ -1,0 +1,74 @@
+{% extends "Photo/base.html" %}
+{% block title %} Gallery {% endblock title %}
+{% load static %}
+
+{% block content%}
+<!---- sidebar -->
+     
+<div class="sidebar">
+    <div class="category-links">
+        <a href=""><img src="{% static 'images/home.png' %}" alt=""><p>Categories</p></a>
+        <a href="{% url 'gallery' %}"><img src="{% static 'images/arrow.png' %}" alt=""><p>All</p></a>
+        {% if searched %}
+        {% for category in categories %}
+        <a href="{% url 'gallery' %}?category={{category.name}}">
+            <img src="{% static 'images/arrow.png' %}" alt="">
+            <p>{{category.name}}</p>
+        </a>
+        {% endfor %}
+        {% endif %}
+        <hr>
+        <a href="{% url 'add-pic' %}"><button class="black-btn">Add Photo</button></a>
+    </div>
+</div>
+
+<!----main --- -->
+<div class="container">
+    {% if searched %}
+    <h2>You for searched for {{ searched }}</h2>
+    <br>
+    <div class="list-container">
+        {% for photo in photos %}
+        <div class="card">
+            <div class="author">
+                <a href="{% url 'profile' photo.user.pk %}"><img src="{{ photo.user.profile.image.url }}"></a>
+
+                <div class="author-info">
+                  <a href="{% url 'profile' photo.user.pk %}"><strong>{{photo.user.first_name}} {{photo.user.last_name}}</strong></a>
+                  <small>{{photo.created}}</small>
+                </div>
+            </div>
+
+            
+            <div class="card-content">
+                <a href="{% url 'view-pic' photo.pk %}">
+                    <img src="{{photo.image.url}}">
+                </a>
+        
+                <div class="pic-info">
+                    <h4>Category: {{photo.category.name}} </h4>
+              
+                    <p class="pic-view">
+                        <a href="{% url 'view-pic' photo.pk %}"><button class="hero-btn">View Picture</button></a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+        {% empty %}
+            <h2>No photo...</h2>
+        {% endfor %}
+
+        
+        
+    </div>
+
+
+    {% else %}
+    <h1>Hey! You forgot to search for a category...</h1>
+    {% endif %} 
+   
+</div>
+
+{% endblock %}

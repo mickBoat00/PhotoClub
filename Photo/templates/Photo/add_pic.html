@@ -1,0 +1,24 @@
+{% extends "Photo/base.html" %}
+{% load static %}
+
+{% block content%}
+<div class="content">
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-control">
+                <h3>Add Picture</h3>
+
+                {{form.as_p}}
+
+                <button class="btn" type="submit">Upload</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+   
+
+   
+{% endblock %}

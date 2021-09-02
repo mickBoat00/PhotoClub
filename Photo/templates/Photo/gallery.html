@@ -1,0 +1,122 @@
+{% extends "Photo/base.html" %}
+{% block title %} Gallery {% endblock title %}
+{% load static %}
+
+{% block content%}
+<!---- sidebar -->
+     
+<div class="sidebar">
+    <div class="category-links">
+        <a href=""><img src="{% static 'images/home.png' %}" alt=""><p>Categories</p></a>
+        <a href="{% url 'gallery' %}"><img src="{% static 'images/arrow.png' %}" alt=""><p>All</p></a>
+        {% for category in categories %}
+        <a href="{% url 'gallery' %}?category={{category.name}}">
+            <img src="{% static 'images/arrow.png' %}" alt="">
+            <p>{{category.name}}</p>
+        </a>
+        {% endfor %}
+        <hr>
+        <a href="{% url 'add-pic' %}"><button class="black-btn">Add Photo</button></a>
+    </div>
+</div>
+
+<!----main --- -->
+<div class="container">
+    <!--
+        <div class="banner"> 
+        <img src="{% static 'images/banner.png' %}">
+    </div>   
+    -->
+    
+
+    <div class="list-container">
+        {% for photo in photoPaginator %}
+        <div class="card">
+            <div class="author">
+                <a href="{% url 'profile' photo.user.pk %}"><img src="{{ photo.user.profile.image.url }}"></a>
+
+                <div class="author-info">
+                  <a href="{% url 'profile' photo.user.pk %}"><strong>{{photo.user.first_name}} {{photo.user.last_name}}</strong></a>
+                  <small>{{photo.created}}</small>
+                </div>
+            </div>
+
+            
+            <div class="card-content">
+                <a href="{% url 'view-pic' photo.pk %}">
+                    <img src="{{photo.image.url}}">
+                </a>
+        
+                <div class="pic-info">
+                    <h4>Category: {{photo.category.name}} </h4>
+              
+                    <p class="pic-view">
+                        <a href="{% url 'view-pic' photo.pk %}"><button class="hero-btn">View Picture</button></a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+        {% empty %}
+            <h2>No photo...</h2>
+        {% endfor %}
+
+        
+        
+    </div>
+
+    
+
+    <div class="flex-div" style="margin-top: 20px;">
+    
+        {%  if photoPaginator.has_previous %}
+        <a href="?page=1"><button class="hero-btn">First</button></a>
+        <a href="?page={{ photoPaginator.previous_page_number }}"><button class="hero-btn">Previous</button></a>
+        {% endif %}
+
+        {% for num in photoPaginator.paginator.page_range %}
+            {% if photoPaginator.number == num %}
+            <a href="?page={{ num }}"><button class="black-btn">{{ num }}</button></a>
+            {% elif num > photoPaginator.number|add:'-3' and num < photoPaginator.number|add:'3' %}
+            <a href="?page={{ num }}"><button class="hero-btn">{{ num }}</button></a>
+            {% endif %}
+        {% endfor %}
+
+        {%  if photoPaginator.has_next %}
+        <a href="?page={{ photoPaginator.next_page_number }}"><button class="hero-btn">Next</button></a>
+        <a href="?page={{ photoPaginator.paginator.num_pages }}"><button class="hero-btn">Last</button></a>
+        {% endif %}
+
+    </div>
+
+    <!--
+
+                                      class based view pagination
+    <div class="flex-div">
+        
+        {%  if page_obj.has_previous %}
+        <a href="?page=1"><button class="hero-btn">First</button></a>
+        <a href="?page={{ page_obj.previous_page_number }}"><button class="hero-btn">Previous</button></a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <a href="?page={{ num }}"><button class="black-btn">{{ num }}</button></a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}"><button class="hero-btn">{{ num }}</button></a>
+            {% endif %}
+        {% endfor %}
+
+        {%  if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"><button class="hero-btn">Next</button></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}"><button class="hero-btn">Last</button></a>
+        {% endif %}
+    
+    </div>
+
+    -->
+   
+</div>
+
+{% endblock %}

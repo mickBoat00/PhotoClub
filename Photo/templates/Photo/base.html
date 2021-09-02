@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>   
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+</head>
+<body>
+
+    <nav class="flex-div">
+        <div class="nav-left flex-div">
+            <img src="{% static 'images/menu.png' %}" class="menu-icon">
+            <a href="{% url 'gallery' %}">
+                <h2>PhotoClub</h2>  
+            </a>
+        </div>
+        <div class="nav-middle flex-div">
+            <form class="flex-div" method="POST" action="{% url 'search-category' %}">
+                {% csrf_token %}
+                <div class="search-box flex-div">
+                    <input name="searched" type="text" placeholder="Search Category Of Photos...">
+                </div>
+                <input class="search-btn" type="submit" value="Search">
+            </form>
+        </div>
+        <div class="nav-right flex-div">
+            {% if user.is_authenticated %}
+            <a href="{% url 'profile' user.pk %}" style="margin-right: 5px;"><h3>Profile</h3></a>
+            <a href="{% url 'logout' %}" style="margin-right: 5px;"><h3>Logout</h3></a>
+            <a href=""><img src="{{ request.user.profile.image.url }}" class="user-icon"></a>
+            {% else %}
+            <a href="{% url 'login' %}" style="margin-right: 5px;"><h3>Login</h3></a>
+            <a href="{% url 'register' %}" style="margin-right: 5px;"><h3>Register</h3></a>
+            {% endif %}
+            
+        </div>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

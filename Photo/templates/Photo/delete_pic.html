@@ -1,0 +1,25 @@
+{% extends "Photo/base.html" %}
+{% load static %}
+
+{% block content%}
+<div class="content">
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-control">
+                <h3>Delete Picture</h3>
+
+                <h2>Are you sure you want to delete the post [ {{object.description}} ] </h2>
+
+                <button class="btn" type="submit">Yes, Delete</button>
+                <a href="{% url 'view-pic' object.id %}">No, Cancel</a>
+            </div>
+            
+        </form>
+    </div>
+</div>
+   
+
+   
+{% endblock %}
